@@ -1,0 +1,22 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - master  # Set the branch you want to deploy to
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          mkdir public  # Create a public directory
+          cp -r templates/* public/  # Copy the contents of the templates directory to the public directory
+          cp -r static/* public/  # Copy the contents of the static directory to the public directory
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+
